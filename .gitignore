@@ -1,6 +1,7 @@
 .vscode/
 .idea/
 *.bin
-./build
-./install
-./log
+build
+install
+log
+*.
