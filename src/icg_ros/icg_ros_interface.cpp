@@ -28,14 +28,18 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
                                                             node_);
 
   tracker_ptr_ = std::make_shared<icg::Tracker>(config_.tracker_name);
-  tracker_ptr_->AddViewer(std::make_shared<icg::NormalColorViewer>(config_.color_viewer_name, color_camera_ptr_, renderer_geometry_ptr_));
+  auto color_viewer_ptr_ = std::make_shared<icg::NormalColorViewer>(config_.color_viewer_name, color_camera_ptr_, renderer_geometry_ptr_);
+
+  tracker_ptr_->AddViewer(color_viewer_ptr_);
+  RCLCPP_INFO(node_->get_logger(), "Color viewer has been added.");
+
 
   if (kUseDepthViewer) {
-    auto depth_viewer_ptr_ = std::make_shared<icg::NormalDepthViewer>(config_.depth_viewer_name,
-                                                                      depth_camera_ptr_,
-                                                                      renderer_geometry_ptr_,
-                                                                      0.3f, 2.0f);
+    auto depth_viewer_ptr_ = std::make_shared<icg::NormalDepthViewer>(config_.depth_viewer_name, depth_camera_ptr_, renderer_geometry_ptr_, 0.3f, 2.0f);
     tracker_ptr_->AddViewer(depth_viewer_ptr_);
+    RCLCPP_INFO(node_->get_logger(), "Depth viewer has been added.");
+  } else {
+    auto depth_viewer_ptr_ = nullptr;
   }
 
   // Depth renderer setup
@@ -58,6 +62,7 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
                                                               config_.config_dir / (body_name + "_detector.yaml"),
                                                               body_ptr);
     tracker_ptr_->AddDetector(detector_ptr);
+    RCLCPP_INFO(node_->get_logger(), "Detector %s has been added.", detector_ptr->name().c_str());
 
     // Models and modalities
     auto region_model_ptr = std::make_shared<icg::RegionModel>(body_name + "_region_model",
@@ -94,16 +99,19 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
     optimizer_ptr->AddModality(region_modality_ptr);
     optimizer_ptr->AddModality(depth_modality_ptr);
     tracker_ptr_->AddOptimizer(optimizer_ptr);
+    RCLCPP_INFO(node_->get_logger(), "Optimizer %s has been added.", optimizer_ptr->name().c_str());
   }
-
+    RCLCPP_INFO(node_->get_logger(), "Jumped out of the for loop.");
   if (!tracker_ptr_->SetUp()) {
     RCLCPP_ERROR(node_->get_logger(), "Cannot set up tracker. Exiting...");
     rclcpp::shutdown();
     exit(1);
   }
+  RCLCPP_INFO(node_->get_logger(), "Tracker has been set up.");
 }
 
 bool ICG_ROS::RunTrackerProcessOneFrame(int iteration) {
+    RCLCPP_INFO(node_->get_logger(), "Running tracker process one frame...");
   if (!tracker_ptr_->set_up()) {
     RCLCPP_ERROR(node_->get_logger(), "Set up tracker %s first", tracker_ptr_->name().c_str());
     return false;
@@ -127,6 +135,8 @@ bool ICG_ROS::RunTrackerProcessOneFrame(int iteration) {
   if (!tracker_ptr_->UpdateViewers(iteration)) return false;
   if (tracker_ptr_->quit_tracker_process_) return true;
   if (!tracker_ptr_->synchronize_cameras_) tracker_ptr_->WaitUntilCycleEnds(begin);
+
+  RCLCPP_INFO(node_->get_logger(), "Tracker process one frame has been completed.");
 
   return true;
 }

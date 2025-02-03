@@ -15,9 +15,10 @@ public:
     ICGTestNode()
             : Node("icg_test_node")
     {
+        RCLCPP_INFO(this->get_logger(), "ICG Test Node has been started.");
         // Declare and get parameters
-        this->declare_parameter<std::string>("config_dir", "");
-        this->declare_parameter<std::string>("camera_frame", "");
+        this->declare_parameter<std::string>("config_dir", "/home/ipu/Documents/robot_learning/icg_ros2/config");
+        this->declare_parameter<std::string>("camera_frame", "D455_color_optical_frame");
 
         // Create publisher
         pose_publisher_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("pose", 10);
@@ -30,21 +31,26 @@ public:
         // Configure ICG
         icg_ros::ICG_ROS_Config config;
         config.config_dir = config_dir;
-        config.body_names.push_back("triangle");
+        config.body_names.push_back("cube");
         config.tracker_name = "tracker";
         config.renderer_geometry_name = "renderer_geometry";
         config.color_camera_name = "color_interface";
-        config.color_camera_topic = "/camera/color/image_raw";
-        config.color_camera_info_topic = "/camera/color/camera_info";
+        config.color_camera_topic = "/camera/D455/color/image_raw";
+        config.color_camera_info_topic = "/camera/D455/color/camera_info";
         config.depth_camera_name = "depth_interface";
-        config.depth_camera_topic = "/camera/aligned_depth_to_color/image_raw";
-        config.depth_camera_info_topic = "/camera/aligned_depth_to_color/camera_info";
+        config.depth_camera_topic = "/camera/D455/depth/image_rect_raw";
+        config.depth_camera_info_topic = "/camera/D455/depth/camera_info";
         config.color_depth_renderer_name = "color_depth_renderer";
         config.depth_depth_renderer_name = "depth_depth_renderer";
+        config.color_viewer_name = "color_viewer";
+        config.depth_viewer_name = "depth_viewer";
 
         // Now safe to use shared_from_this() since node is fully constructed
-        interface_ = std::make_shared<icg_ros::ICG_ROS>(std::static_pointer_cast<rclcpp::Node>(shared_from_this()), config);
+        interface_ = std::make_shared<icg_ros::ICG_ROS>(shared_from_this(), config);
+
         tracker_ptr_ = interface_->GetTrackerPtr();
+
+        RCLCPP_INFO(this->get_logger(), "tracker_ptr_ has been configured.");
 
         // Create subscription
         tracking_sub_ = this->create_subscription<std_msgs::msg::Bool>(
@@ -70,7 +76,7 @@ private:
         Eigen::Vector3f trans(temp_transform.matrix().block<3, 1>(0, 3));
 
         auto pose = geometry_msgs::msg::PoseStamped();
-        pose.header.frame_id = "camera";
+        pose.header.frame_id = "D455_color_optical_frame";
         pose.header.stamp = this->now();
         pose.pose.orientation.w = rotation.w();
         pose.pose.orientation.x = rotation.x();
@@ -79,6 +85,11 @@ private:
         pose.pose.position.x = trans.x();
         pose.pose.position.y = trans.y();
         pose.pose.position.z = trans.z();
+
+        RCLCPP_INFO(this->get_logger(), "Pose: [Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)]",
+                pose.pose.position.x, pose.pose.position.y, pose.pose.position.z,
+                pose.pose.orientation.w, pose.pose.orientation.x, pose.pose.orientation.y, pose.pose.orientation.z);
+
         
         pose_publisher_->publish(pose);
         iteration++;
@@ -100,6 +111,8 @@ int main(int argc, char **argv)
     
     // Initialize after node creation
     node->initialize();
+
+    RCLCPP_INFO(node->get_logger(), "ICG Test Node has been initialized.");
     
     rclcpp::spin(node);
     rclcpp::shutdown();

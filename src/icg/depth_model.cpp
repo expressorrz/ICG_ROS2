@@ -118,7 +118,7 @@ bool DepthModel::GenerateModel() {
   }
 
   // Generate template views
-  std::cout << "Start generating model " << name_ << std::endl;
+  std::cout << "Start generating depth model " << name_ << std::endl;
   views_.resize(camera2body_poses.size());
   bool cancel = false;
   std::atomic<int> count = 1;

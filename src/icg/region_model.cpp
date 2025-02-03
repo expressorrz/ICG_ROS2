@@ -109,6 +109,7 @@ bool RegionModel::GenerateModel() {
   std::vector<Transform3fA> camera2body_poses;
   GenerateGeodesicPoses(&camera2body_poses);
 
+
   // Create RendererGeometries in main thread to comply with GLFW thread safety
   // requirements
   std::vector<std::shared_ptr<RendererGeometry>> renderer_geometry_ptrs(
@@ -119,7 +120,7 @@ bool RegionModel::GenerateModel() {
   }
 
   // Generate template views
-  std::cout << "Start generating model " << name_ << std::endl;
+  std::cout << "Start generating region model " << name_ << std::endl;
   views_.resize(camera2body_poses.size());
   bool cancel = false;
   std::atomic<int> count = 1;
@@ -144,12 +145,50 @@ bool RegionModel::GenerateModel() {
       renderer_ptr->FetchNormalImage();
       renderer_ptr->FetchDepthImage();
 
+        // // --------------------- 调试测试代码开始 ---------------------
+        // // 获取并显示 Normal Image
+        // cv::Mat normal_img = renderer_ptr->normal_image();
+        // if (normal_img.empty()) {
+        //     std::cerr << "[DEBUG] Normal image is empty!" << std::endl;
+        // } else {
+        //     std::cout << "[DEBUG] Normal image size: " << normal_img.cols << "x" 
+        //             << normal_img.rows << ", channels: " << normal_img.channels() << std::endl;
+        //     cv::imshow("[DEBUG] Normal Image", normal_img);
+
+        //     // 如果图像有多个通道，可以拆分并显示每个通道的情况
+        //     if (normal_img.channels() > 1) {
+        //         std::vector<cv::Mat> channels;
+        //         cv::split(normal_img, channels);
+        //         std::cout << "[DEBUG] After splitting, number of channels: " << channels.size() << std::endl;
+        //         for (size_t ch = 0; ch < channels.size(); ++ch) {
+        //             double minVal, maxVal;
+        //             cv::minMaxLoc(channels[ch], &minVal, &maxVal);
+        //             std::cout << "[DEBUG] Channel " << ch << " - min: " << minVal 
+        //                     << ", max: " << maxVal << std::endl;
+        //             cv::imshow(("[DEBUG] Channel " + std::to_string(ch)).c_str(), channels[ch]);
+        //         }
+        //     }
+        // }
+
+        // // 获取并显示 Depth Image（如果有提供接口）
+        // cv::Mat depth_img = renderer_ptr->depth_image();
+        // if (depth_img.empty()) {
+        //     std::cerr << "[DEBUG] Depth image is empty!" << std::endl;
+        // } else {
+        //     std::cout << "[DEBUG] Depth image size: " << depth_img.cols << "x" 
+        //             << depth_img.rows << ", channels: " << depth_img.channels() << std::endl;
+        //     cv::imshow("[DEBUG] Depth Image", depth_img);
+        // }
+
+        // cv::waitKey(0);  // 等待按键后继续
+        // // --------------------- 调试测试代码结束 ---------------------
+
+
       // Generate data
-      views_[i].orientation =
-          camera2body_poses[i].matrix().col(2).segment(0, 3);
+      views_[i].orientation = camera2body_poses[i].matrix().col(2).segment(0, 3);
       views_[i].data_points.resize(n_points_);
-      if (!GeneratePointData(*renderer_ptr, camera2body_poses[i],
-                             &views_[i].data_points))
+      
+      if (!GeneratePointData(*renderer_ptr, camera2body_poses[i], &views_[i].data_points))
         cancel = true;
     }
   }
@@ -162,7 +201,7 @@ bool RegionModel::LoadModel() {
   std::ifstream ifs{model_path_, std::ios::in | std::ios::binary};
   if (!ifs.is_open() || ifs.fail()) {
     ifs.close();
-    std::cout << "Could not open model file " << model_path_ << std::endl;
+    std::cout << "Could not open region model file " << model_path_ << std::endl;
     return false;
   }
 
@@ -220,9 +259,11 @@ bool RegionModel::GeneratePointData(const FullNormalRenderer &renderer,
   cv::split(renderer.normal_image(), normal_image_channels);
   cv::Mat &silhouette_image{normal_image_channels[3]};
 
+
   // Generate contour
   int total_contour_length_in_pixel;
   std::vector<std::vector<cv::Point2i>> contours;
+
   if (!GenerateValidContours(silhouette_image, &contours,
                              &total_contour_length_in_pixel))
     return false;
@@ -267,6 +308,7 @@ bool RegionModel::GenerateValidContours(
     const cv::Mat &silhouette_image,
     std::vector<std::vector<cv::Point2i>> *contours,
     int *total_contour_length_in_pixel) const {
+
   // test if outer border is empty
   for (int i = 0; i < image_size_; ++i) {
     if (silhouette_image.at<uchar>(0, i) ||

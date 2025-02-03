@@ -1,18 +1,18 @@
 %YAML:1.2
-RealSenseColorCamera:
-  - name: "realsense_color"
+AzureKinectColorCamera:
+  - name: "azure_kinect_color"
 
-RealSenseDepthCamera:
-  - name: "realsense_depth"
+AzureKinectDepthCamera:
+  - name: "azure_kinect_depth"
 
 NormalColorViewer:
   - name: "color_viewer"
-    color_camera: "realsense_color"
+    color_camera: "azure_kinect_color"
     renderer_geometry: "renderer_geometry"
 
 NormalDepthViewer:
   - name: "depth_viewer"
-    depth_camera: "realsense_depth"
+    depth_camera: "azure_kinect_depth"
     renderer_geometry: "renderer_geometry"
 
 RendererGeometry:
@@ -25,9 +25,9 @@ Body:
 
 ManualDetector:
   - name: "cube_manual_detector"
-    metafile_path: "./cube_manual_detector2.yaml"
+    metafile_path: "./cube_manual_detector.yaml"
     body: "cube"
-    color_camera: "realsense_color"
+    color_camera: "azure_kinect_color"
 
 RegionModel:
   - name: "cube_region_model"
@@ -42,14 +42,14 @@ DepthModel:
 RegionModality:
   - name: "cube_region_modality"
     body: "cube"
-    color_camera: "realsense_color"
+    color_camera: "azure_kinect_color"
     region_model: "cube_region_model"
-    measure_occlusions: {depth_camera: "realsense_depth"}
+    measure_occlusions: {depth_camera: "azure_kinect_depth"}
 
 DepthModality:
   - name: "cube_depth_modality"
     body: "cube"
-    depth_camera: "realsense_depth"
+    depth_camera: "azure_kinect_depth"
     depth_model: "cube_depth_model"
 
 Optimizer:
