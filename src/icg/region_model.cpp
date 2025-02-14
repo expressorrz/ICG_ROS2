@@ -30,6 +30,7 @@ RegionModel::RegionModel(const std::string &name,
 
 bool RegionModel::SetUp() {
   set_up_ = false;
+  std::cout << "Set up region model " << metafile_path_ << std::endl;
   if (!metafile_path_.empty())
     if (!LoadMetaData()) return false;
 
@@ -41,8 +42,12 @@ bool RegionModel::SetUp() {
 
   if (!DepthOffsetVariablesValid()) return false;
   if (use_random_seed_ || !LoadModel()) {
-    if (!GenerateModel()) return false;
+    bool success_generate = GenerateModel();
+    std::cout << "GenerateModel success: " << success_generate << std::endl;
+    if (!success_generate) return false;
     if (!SaveModel()) return false;
+    // if (!GenerateModel()) return false;
+    // if (!SaveModel()) return false;
   }
   set_up_ = true;
   return true;
@@ -109,7 +114,6 @@ bool RegionModel::GenerateModel() {
   std::vector<Transform3fA> camera2body_poses;
   GenerateGeodesicPoses(&camera2body_poses);
 
-
   // Create RendererGeometries in main thread to comply with GLFW thread safety
   // requirements
   std::vector<std::shared_ptr<RendererGeometry>> renderer_geometry_ptrs(
@@ -124,6 +128,7 @@ bool RegionModel::GenerateModel() {
   views_.resize(camera2body_poses.size());
   bool cancel = false;
   std::atomic<int> count = 1;
+
 #pragma omp parallel
   {
     std::shared_ptr<FullNormalRenderer> renderer_ptr;
@@ -135,15 +140,16 @@ bool RegionModel::GenerateModel() {
     for (int i = 0; i < int(views_.size()); ++i) {
       if (cancel) continue;
       std::stringstream msg;
-      msg << "Generate region model " << name_ << ": view " << count++ << " of "
-          << views_.size() << std::endl;
+      msg << "Generate region model " << name_ << ": view " << count++ << " of " << views_.size() << std::endl;
       std::cout << msg.str();
 
       // Render images
+      std::cout << "Rendering view " << i << std::endl;
       renderer_ptr->set_camera2world_pose(camera2body_poses[i]);
       renderer_ptr->StartRendering();
       renderer_ptr->FetchNormalImage();
       renderer_ptr->FetchDepthImage();
+      std::cout << "Finish rendering view " << i << std::endl;
 
         // // --------------------- 调试测试代码开始 ---------------------
         // // 获取并显示 Normal Image

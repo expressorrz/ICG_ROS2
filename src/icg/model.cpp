@@ -114,12 +114,13 @@ bool Model::SetUpRenderer(
   if (!renderer_geometry_ptr->AddBody(copied_body_ptr)) return false;
 
   // Calculate parameters
-  float focal_length =
-      float(image_size_ - kImageSizeSafetyBoundary) /
-      tanf(asinf(body_ptr_->maximum_body_diameter() / sphere_radius_));
+//   float ratio = body_ptr_->maximum_body_diameter() / sphere_radius_;
+//   ratio = std::clamp(ratio, -1.0f, 1.0f);
+//   float focal_length = float(image_size_ - kImageSizeSafetyBoundary) / tanf(asinf(ratio));
+  float focal_length = float(image_size_ - kImageSizeSafetyBoundary) / tanf(asinf(body_ptr_->maximum_body_diameter() / sphere_radius_));
   float principal_point = float(image_size_) / 2.0f;
-  Intrinsics intrinsics{focal_length,    focal_length, principal_point,
-                        principal_point, image_size_,  image_size_};
+  Intrinsics intrinsics{focal_length, focal_length, principal_point, principal_point, image_size_,  image_size_};
+
   float z_min = sphere_radius_ - body_ptr_->maximum_body_diameter() * 0.5f;
   float z_max = sphere_radius_ + body_ptr_->maximum_body_diameter() * 0.5f;
 
@@ -127,6 +128,7 @@ bool Model::SetUpRenderer(
   *renderer_ptr = std::make_shared<FullNormalRenderer>(
       "renderer", renderer_geometry_ptr, Transform3fA::Identity(), intrinsics,
       z_min, z_max);
+  std::cout << "Set up renderer 11111111 " << std::endl;
   return (*renderer_ptr)->SetUp();
 }
 

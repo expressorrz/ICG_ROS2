@@ -208,13 +208,19 @@ bool FullNormalRenderer::SetUp() {
               << " was not set up" << std::endl;
     return false;
   }
-  if (camera_ptr_ && !InitParametersFromCamera()) return false;
+  if (camera_ptr_ && !InitParametersFromCamera()){
+  return false;}
+
 
   // Set up everything
+std::cout << "--------------------------------------" << std::endl;
   CalculateProjectionMatrix();
   CalculateProjectionTerms();
   ClearDepthImage();
   ClearNormalImage();
+
+  std::cout << "intrinsics_.width: " << intrinsics_.width << ", intrinsics_.height: " << intrinsics_.height << std::endl;
+
   if (!core_.SetUp(renderer_geometry_ptr_, intrinsics_.width,
                    intrinsics_.height))
     return false;

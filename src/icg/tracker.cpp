@@ -27,20 +27,13 @@ bool Tracker::SetUp(bool set_up_all_objects) {
     if (!LoadMetaData()) return false;
     
   AssembleDerivedObjectPtrs();
-  std::cout << "Assembled derived object pointers" << std::endl;
   if (set_up_all_objects) {
-    std::cout << "Setting up all objects" << std::endl;
-
     if (!SetUpAllObjects())
-      std::cout << "Cannot set up all objects" << std::endl;
       return false;
   } else {
-    std::cout << "Checking if all objects are set up" << std::endl;
     if (!AreAllObjectsSetUp())
-      std::cout << "Not all objects are set up" << std::endl;
       return false;
   }
-  std::cout << "set_up_" << std::endl;
   set_up_ = true;
   return true;
 }

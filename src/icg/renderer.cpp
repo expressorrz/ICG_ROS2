@@ -235,6 +235,13 @@ bool Renderer::InitParametersFromCamera() {
   intrinsics_ = camera_ptr_->intrinsics();
   world2camera_pose_ = camera_ptr_->world2camera_pose();
   camera2world_pose_ = camera_ptr_->camera2world_pose();
+  // std::cout << "Intrinsics: " << std::endl;
+  // std::cout << "fu: " << intrinsics_.fu << std::endl;
+  // std::cout << "fv: " << intrinsics_.fv << std::endl;
+  // std::cout << "ppu: " << intrinsics_.ppu << std::endl;
+  // std::cout << "ppv: " << intrinsics_.ppv << std::endl;
+  // std::cout << "width: " << intrinsics_.width << std::endl;
+  // std::cout << "height: " << intrinsics_.height << std::endl;
   return true;
 }
 
@@ -260,6 +267,15 @@ FullRenderer::FullRenderer(
     : Renderer{name, metafile_path, renderer_geometry_ptr, camera_ptr} {}
 
 void FullRenderer::CalculateProjectionMatrix() {
+
+  // std::cout << "Intrinsics: " << std::endl;
+  // std::cout << "fu: " << intrinsics_.fu << std::endl;
+  // std::cout << "fv: " << intrinsics_.fv << std::endl;
+  // std::cout << "ppu: " << intrinsics_.ppu << std::endl;
+  // std::cout << "ppv: " << intrinsics_.ppv << std::endl;
+  // std::cout << "width: " << intrinsics_.width << std::endl;
+  // std::cout << "height: " << intrinsics_.height << std::endl;
+
   projection_matrix_ << 2.0f * intrinsics_.fu / float(intrinsics_.width), 0.0f,
       2.0f * (intrinsics_.ppu + 0.5f) / float(intrinsics_.width) - 1.0f, 0.0f,
       0.0f, 2.0f * intrinsics_.fv / float(intrinsics_.height),

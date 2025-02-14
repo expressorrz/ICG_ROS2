@@ -17,7 +17,7 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
   constexpr bool kSaveImages = false;
 
   // Renderer and camera setup
-  auto renderer_geometry_ptr_ = std::make_shared<icg::RendererGeometry>(config_.renderer_geometry_name);
+  
   auto color_camera_ptr_ = std::make_shared<RosColorCamera>(config_.color_camera_name,
                                                             config_.color_camera_topic,
                                                             config_.color_camera_info_topic,
@@ -26,6 +26,8 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
                                                             config_.depth_camera_topic,
                                                             config_.depth_camera_info_topic,
                                                             node_);
+  
+  auto renderer_geometry_ptr_ = std::make_shared<icg::RendererGeometry>(config_.renderer_geometry_name);
 
   tracker_ptr_ = std::make_shared<icg::Tracker>(config_.tracker_name);
   auto color_viewer_ptr_ = std::make_shared<icg::NormalColorViewer>(config_.color_viewer_name, color_camera_ptr_, renderer_geometry_ptr_);
@@ -101,7 +103,7 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
     tracker_ptr_->AddOptimizer(optimizer_ptr);
     RCLCPP_INFO(node_->get_logger(), "Optimizer %s has been added.", optimizer_ptr->name().c_str());
   }
-    RCLCPP_INFO(node_->get_logger(), "Jumped out of the for loop.");
+
   if (!tracker_ptr_->SetUp()) {
     RCLCPP_ERROR(node_->get_logger(), "Cannot set up tracker. Exiting...");
     rclcpp::shutdown();

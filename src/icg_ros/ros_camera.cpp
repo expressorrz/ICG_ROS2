@@ -49,6 +49,7 @@ bool RosColorCamera::SetUp() {
         set_up_ = true; // 设置标志位为 true
       });
 
+
   // 等待标志位更新
   rclcpp::Rate rate(10); // 10 Hz
   while (rclcpp::ok() && !set_up_) {
