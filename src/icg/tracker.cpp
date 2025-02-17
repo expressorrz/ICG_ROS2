@@ -601,141 +601,141 @@ void Tracker::AssembleDerivedObjectPtrs() {
   }
 }
 
-bool Tracker::SetUpAllObjects() {
-  bool success = true;
-
-  if (!SetUpObjectPtrs(&body_ptrs_)) {
-    std::cerr << "Failed to set up body_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "body_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "renderer_geometry_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&renderer_geometry_ptrs_)) {
-    std::cerr << "Failed to set up renderer_geometry_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "renderer_geometry_ptrs_ set up successfully." << std::endl;
-  }
-  
-  std::cout << std::string(40, '-') << "all_camera_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&all_camera_ptrs_)) {
-    std::cerr << "Failed to set up all_camera_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "all_camera_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "start_modality_renderer_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&start_modality_renderer_ptrs_)) {
-    std::cerr << "Failed to set up start_modality_renderer_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "start_modality_renderer_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "correspondence_renderer_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&correspondence_renderer_ptrs_)) {
-    std::cerr << "Failed to set up correspondence_renderer_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "correspondence_renderer_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "results_renderer_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&results_renderer_ptrs_)) {
-    std::cerr << "Failed to set up results_renderer_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "results_renderer_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "model_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&model_ptrs_)) {
-    std::cerr << "Failed to set up model_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "model_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "modality_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&modality_ptrs_)) {
-    std::cerr << "Failed to set up modality_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "modality_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "optimizer_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&optimizer_ptrs_)) {
-    std::cerr << "Failed to set up optimizer_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "optimizer_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "viewer_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&viewer_ptrs_)) {
-    std::cerr << "Failed to set up viewer_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "viewer_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "refiner_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&refiner_ptrs_)) {
-    std::cerr << "Failed to set up refiner_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "refiner_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "detector_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&detector_ptrs_)) {
-    std::cerr << "Failed to set up detector_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "detector_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "publisher_ptrs_" << std::string(40, '-') << std::endl;
-
-  if (!SetUpObjectPtrs(&publisher_ptrs_)) {
-    std::cerr << "Failed to set up publisher_ptrs_" << std::endl;
-    success = false;
-  } else {
-    std::cout << "publisher_ptrs_ set up successfully." << std::endl;
-  }
-
-  std::cout << std::string(40, '-') << "Done setting up all objects." << std::string(40, '-') << std::endl;
-
-  return success;
-}
-
 // bool Tracker::SetUpAllObjects() {
-//   return SetUpObjectPtrs(&body_ptrs_) &&
-//          SetUpObjectPtrs(&renderer_geometry_ptrs_) &&
-//          SetUpObjectPtrs(&all_camera_ptrs_) &&
-//          SetUpObjectPtrs(&start_modality_renderer_ptrs_) &&
-//          SetUpObjectPtrs(&correspondence_renderer_ptrs_) &&
-//          SetUpObjectPtrs(&results_renderer_ptrs_) &&
-//          SetUpObjectPtrs(&model_ptrs_) && SetUpObjectPtrs(&modality_ptrs_) &&
-//          SetUpObjectPtrs(&optimizer_ptrs_) && SetUpObjectPtrs(&viewer_ptrs_) &&
-//          SetUpObjectPtrs(&refiner_ptrs_) && SetUpObjectPtrs(&detector_ptrs_) &&
-//          SetUpObjectPtrs(&publisher_ptrs_);
+//   bool success = true;
+
+//   if (!SetUpObjectPtrs(&body_ptrs_)) {
+//     std::cerr << "Failed to set up body_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "body_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "renderer_geometry_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&renderer_geometry_ptrs_)) {
+//     std::cerr << "Failed to set up renderer_geometry_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "renderer_geometry_ptrs_ set up successfully." << std::endl;
+//   }
+  
+//   std::cout << std::string(40, '-') << "all_camera_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&all_camera_ptrs_)) {
+//     std::cerr << "Failed to set up all_camera_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "all_camera_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "start_modality_renderer_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&start_modality_renderer_ptrs_)) {
+//     std::cerr << "Failed to set up start_modality_renderer_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "start_modality_renderer_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "correspondence_renderer_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&correspondence_renderer_ptrs_)) {
+//     std::cerr << "Failed to set up correspondence_renderer_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "correspondence_renderer_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "results_renderer_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&results_renderer_ptrs_)) {
+//     std::cerr << "Failed to set up results_renderer_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "results_renderer_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "model_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&model_ptrs_)) {
+//     std::cerr << "Failed to set up model_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "model_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "modality_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&modality_ptrs_)) {
+//     std::cerr << "Failed to set up modality_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "modality_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "optimizer_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&optimizer_ptrs_)) {
+//     std::cerr << "Failed to set up optimizer_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "optimizer_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "viewer_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&viewer_ptrs_)) {
+//     std::cerr << "Failed to set up viewer_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "viewer_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "refiner_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&refiner_ptrs_)) {
+//     std::cerr << "Failed to set up refiner_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "refiner_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "detector_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&detector_ptrs_)) {
+//     std::cerr << "Failed to set up detector_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "detector_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "publisher_ptrs_" << std::string(40, '-') << std::endl;
+
+//   if (!SetUpObjectPtrs(&publisher_ptrs_)) {
+//     std::cerr << "Failed to set up publisher_ptrs_" << std::endl;
+//     success = false;
+//   } else {
+//     std::cout << "publisher_ptrs_ set up successfully." << std::endl;
+//   }
+
+//   std::cout << std::string(40, '-') << "Done setting up all objects." << std::string(40, '-') << std::endl;
+
+//   return success;
 // }
+
+bool Tracker::SetUpAllObjects() {
+  return SetUpObjectPtrs(&body_ptrs_) &&
+         SetUpObjectPtrs(&renderer_geometry_ptrs_) &&
+         SetUpObjectPtrs(&all_camera_ptrs_) &&
+         SetUpObjectPtrs(&start_modality_renderer_ptrs_) &&
+         SetUpObjectPtrs(&correspondence_renderer_ptrs_) &&
+         SetUpObjectPtrs(&results_renderer_ptrs_) &&
+         SetUpObjectPtrs(&model_ptrs_) && SetUpObjectPtrs(&modality_ptrs_) &&
+         SetUpObjectPtrs(&optimizer_ptrs_) && SetUpObjectPtrs(&viewer_ptrs_) &&
+         SetUpObjectPtrs(&refiner_ptrs_) && SetUpObjectPtrs(&detector_ptrs_) &&
+         SetUpObjectPtrs(&publisher_ptrs_);
+}
 
 bool Tracker::AreAllObjectsSetUp() {
   return AreObjectPtrsSetUp(&body_ptrs_) &&

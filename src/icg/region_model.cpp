@@ -150,45 +150,6 @@ bool RegionModel::GenerateModel() {
       renderer_ptr->FetchDepthImage();
       std::cout << "Finish rendering view " << i << std::endl;
 
-        // // --------------------- 调试测试代码开始 ---------------------
-        // // 获取并显示 Normal Image
-        // cv::Mat normal_img = renderer_ptr->normal_image();
-        // if (normal_img.empty()) {
-        //     std::cerr << "[DEBUG] Normal image is empty!" << std::endl;
-        // } else {
-        //     std::cout << "[DEBUG] Normal image size: " << normal_img.cols << "x" 
-        //             << normal_img.rows << ", channels: " << normal_img.channels() << std::endl;
-        //     cv::imshow("[DEBUG] Normal Image", normal_img);
-
-        //     // 如果图像有多个通道，可以拆分并显示每个通道的情况
-        //     if (normal_img.channels() > 1) {
-        //         std::vector<cv::Mat> channels;
-        //         cv::split(normal_img, channels);
-        //         std::cout << "[DEBUG] After splitting, number of channels: " << channels.size() << std::endl;
-        //         for (size_t ch = 0; ch < channels.size(); ++ch) {
-        //             double minVal, maxVal;
-        //             cv::minMaxLoc(channels[ch], &minVal, &maxVal);
-        //             std::cout << "[DEBUG] Channel " << ch << " - min: " << minVal 
-        //                     << ", max: " << maxVal << std::endl;
-        //             cv::imshow(("[DEBUG] Channel " + std::to_string(ch)).c_str(), channels[ch]);
-        //         }
-        //     }
-        // }
-
-        // // 获取并显示 Depth Image（如果有提供接口）
-        // cv::Mat depth_img = renderer_ptr->depth_image();
-        // if (depth_img.empty()) {
-        //     std::cerr << "[DEBUG] Depth image is empty!" << std::endl;
-        // } else {
-        //     std::cout << "[DEBUG] Depth image size: " << depth_img.cols << "x" 
-        //             << depth_img.rows << ", channels: " << depth_img.channels() << std::endl;
-        //     cv::imshow("[DEBUG] Depth Image", depth_img);
-        // }
-
-        // cv::waitKey(0);  // 等待按键后继续
-        // // --------------------- 调试测试代码结束 ---------------------
-
-
       // Generate data
       views_[i].orientation = camera2body_poses[i].matrix().col(2).segment(0, 3);
       views_[i].data_points.resize(n_points_);

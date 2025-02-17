@@ -128,9 +128,9 @@ bool NormalRendererCore::FetchNormalImage(cv::Mat *normal_image) {
     //     }
     // }
     // cv::imwrite("fig/normal_image_" + std::to_string(image_count) + ".png", *normal_image);
-  cv::imshow("Normal Image", *normal_image);
-  std::cout << "Normal Image Size: " << normal_image->cols << " x " << normal_image->rows << std::endl;
-  cv::waitKey(0);
+//   cv::imshow("Normal Image", *normal_image);
+//   std::cout << "Normal Image Size: " << normal_image->cols << " x " << normal_image->rows << std::endl;
+//   cv::waitKey(0);
   return true;
 }
 
@@ -149,7 +149,17 @@ bool NormalRendererCore::FetchDepthImage(cv::Mat *depth_image) {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   renderer_geometry_ptr_->DetachContext();
   depth_image_fetched_ = true;
+    // Resize the depth image to a smaller size for visualization
+    // cv::Mat resized_depth_image;
+    // cv::resize(*depth_image, resized_depth_image, cv::Size(), 0.25, 0.25, cv::INTER_LINEAR);
+    // Visualize the resized depth image
+    // cv::imshow("Resized Depth Image", resized_depth_image);
+    // std::cout << "Resized Depth Image Size: " << resized_depth_image.cols << " x " << resized_depth_image.rows << std::endl;
+    // cv::waitKey(0);
+
+
 //   cv::imshow("Depth Image", *depth_image);
+//   std::cout << "Depth Image Size: " << depth_image->cols << " x " << depth_image->rows << std::endl;
 //   cv::waitKey(0);
   return true;
 }

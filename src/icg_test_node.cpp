@@ -86,9 +86,9 @@ private:
         pose.pose.position.y = trans.y();
         pose.pose.position.z = trans.z();
 
-        RCLCPP_INFO(this->get_logger(), "Pose: [Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)]",
-                pose.pose.position.x, pose.pose.position.y, pose.pose.position.z,
-                pose.pose.orientation.w, pose.pose.orientation.x, pose.pose.orientation.y, pose.pose.orientation.z);
+        // RCLCPP_INFO(this->get_logger(), "Pose: [Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)]",
+        //         pose.pose.position.x, pose.pose.position.y, pose.pose.position.z,
+        //         pose.pose.orientation.w, pose.pose.orientation.x, pose.pose.orientation.y, pose.pose.orientation.z);
 
         
         pose_publisher_->publish(pose);
