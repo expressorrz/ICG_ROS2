@@ -33,18 +33,15 @@ bool DepthModality::SetUp() {
     return false;
   }
   if (!depth_model_ptr_->set_up()) {
-    std::cerr << "Depth model " << depth_model_ptr_->name() << " was not set up"
-              << std::endl;
+    std::cerr << "Depth model " << depth_model_ptr_->name() << " was not set up" << std::endl;
     return false;
   }
   if (!depth_camera_ptr_->set_up()) {
-    std::cerr << "Depth camera " << depth_camera_ptr_->name()
-              << " was not set up" << std::endl;
+    std::cerr << "Depth camera " << depth_camera_ptr_->name() << " was not set up" << std::endl;
     return false;
   }
   if (model_occlusions_ && !depth_renderer_ptr_->set_up()) {
-    std::cerr << "Focused depth renderer " << depth_renderer_ptr_->name()
-              << " was not set up" << std::endl;
+    std::cerr << "Focused depth renderer " << depth_renderer_ptr_->name() << " was not set up" << std::endl;
     return false;
   }
 

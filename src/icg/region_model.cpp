@@ -30,7 +30,6 @@ RegionModel::RegionModel(const std::string &name,
 
 bool RegionModel::SetUp() {
   set_up_ = false;
-  std::cout << "Set up region model " << metafile_path_ << std::endl;
   if (!metafile_path_.empty())
     if (!LoadMetaData()) return false;
 
@@ -39,7 +38,7 @@ bool RegionModel::SetUp() {
     std::cerr << "Body " << body_ptr_->name() << " was not set up" << std::endl;
     return false;
   }
-
+  
   if (!DepthOffsetVariablesValid()) return false;
   if (use_random_seed_ || !LoadModel()) {
     bool success_generate = GenerateModel();
@@ -94,8 +93,7 @@ bool RegionModel::LoadMetaData() {
   ReadOptionalValueFromYaml(fs, "sphere_radius", &sphere_radius_);
   ReadOptionalValueFromYaml(fs, "n_divides", &n_divides_);
   ReadOptionalValueFromYaml(fs, "n_points", &n_points_);
-  ReadOptionalValueFromYaml(fs, "max_radius_depth_offset",
-                            &max_radius_depth_offset_);
+  ReadOptionalValueFromYaml(fs, "max_radius_depth_offset", &max_radius_depth_offset_);
   ReadOptionalValueFromYaml(fs, "stride_depth_offset", &stride_depth_offset_);
   ReadOptionalValueFromYaml(fs, "use_random_seed", &use_random_seed_);
   ReadOptionalValueFromYaml(fs, "image_size", &image_size_);
@@ -114,8 +112,7 @@ bool RegionModel::GenerateModel() {
   std::vector<Transform3fA> camera2body_poses;
   GenerateGeodesicPoses(&camera2body_poses);
 
-  // Create RendererGeometries in main thread to comply with GLFW thread safety
-  // requirements
+  // Create RendererGeometries in main thread to comply with GLFW thread safety requirements
   std::vector<std::shared_ptr<RendererGeometry>> renderer_geometry_ptrs(
       omp_get_max_threads());
   for (auto &renderer_geometry_ptr : renderer_geometry_ptrs) {
@@ -124,7 +121,7 @@ bool RegionModel::GenerateModel() {
   }
 
   // Generate template views
-  std::cout << "Start generating region model " << name_ << std::endl;
+  std::cout << "Start generating region model, views: " << camera2body_poses.size() << std::endl;
   views_.resize(camera2body_poses.size());
   bool cancel = false;
   std::atomic<int> count = 1;
@@ -135,6 +132,7 @@ bool RegionModel::GenerateModel() {
     if (!SetUpRenderer(renderer_geometry_ptrs[omp_get_thread_num()],
                        &renderer_ptr))
       cancel = true;
+    
 
 #pragma omp for
     for (int i = 0; i < int(views_.size()); ++i) {
@@ -145,6 +143,7 @@ bool RegionModel::GenerateModel() {
 
       // Render images
       std::cout << "Rendering view " << i << std::endl;
+      renderer_ptr->SetUp();
       renderer_ptr->set_camera2world_pose(camera2body_poses[i]);
       renderer_ptr->StartRendering();
       renderer_ptr->FetchNormalImage();

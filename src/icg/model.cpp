@@ -126,9 +126,7 @@ bool Model::SetUpRenderer(
 
   // Set up renderer
   *renderer_ptr = std::make_shared<FullNormalRenderer>(
-      "renderer", renderer_geometry_ptr, Transform3fA::Identity(), intrinsics,
-      z_min, z_max);
-  std::cout << "Set up renderer 11111111 " << std::endl;
+      "renderer", renderer_geometry_ptr, Transform3fA::Identity(), intrinsics, z_min, z_max);
   return (*renderer_ptr)->SetUp();
 }
 

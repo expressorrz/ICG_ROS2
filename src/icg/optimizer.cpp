@@ -28,8 +28,7 @@ bool Optimizer::SetUp() {
   }
   for (auto &modality_ptr : modality_ptrs_) {
     if (!modality_ptr->set_up()) {
-      std::cerr << "Modality " << modality_ptr->name() << " was not set up"
-                << std::endl;
+      std::cerr << "Modality " << modality_ptr->name() << " was not set up" << std::endl;
       return false;
     }
   }

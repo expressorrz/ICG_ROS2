@@ -216,8 +216,7 @@ bool ManualDetector::LoadMetaData() {
 
   // Read parameters from yaml
   if (!ReadRequiredValueFromYaml(fs, "reference_points", &reference_points_)) {
-    std::cerr << "Could not read all required body parameters from "
-              << metafile_path_ << std::endl;
+    std::cerr << "Could not read all required body parameters from " << metafile_path_ << std::endl;
     return false;
   }
   ReadOptionalValueFromYaml(fs, "detector_image_path", &detector_image_path_);

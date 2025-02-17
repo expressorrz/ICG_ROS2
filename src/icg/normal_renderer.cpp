@@ -204,8 +204,7 @@ bool FullNormalRenderer::SetUp() {
 
   // Check if all required objects are set up
   if (!renderer_geometry_ptr_->set_up()) {
-    std::cerr << "Renderer geometry " << renderer_geometry_ptr_->name()
-              << " was not set up" << std::endl;
+    std::cerr << "Renderer geometry " << renderer_geometry_ptr_->name() << " was not set up" << std::endl;
     return false;
   }
   if (camera_ptr_ && !InitParametersFromCamera()){
@@ -213,13 +212,13 @@ bool FullNormalRenderer::SetUp() {
 
 
   // Set up everything
-std::cout << "--------------------------------------" << std::endl;
+//   std::cout << "--------------------------------------" << std::endl;
   CalculateProjectionMatrix();
   CalculateProjectionTerms();
   ClearDepthImage();
   ClearNormalImage();
 
-  std::cout << "intrinsics_.width: " << intrinsics_.width << ", intrinsics_.height: " << intrinsics_.height << std::endl;
+//   std::cout << "intrinsics_.width: " << intrinsics_.width << ", intrinsics_.height: " << intrinsics_.height << std::endl;
 
   if (!core_.SetUp(renderer_geometry_ptr_, intrinsics_.width,
                    intrinsics_.height))
@@ -334,8 +333,7 @@ bool FocusedNormalRenderer::SetUp() {
 
   // Check if all required objects are set up
   if (!renderer_geometry_ptr_->set_up()) {
-    std::cerr << "Renderer geometry " << renderer_geometry_ptr_->name()
-              << " was not set up" << std::endl;
+    std::cerr << "Renderer geometry " << renderer_geometry_ptr_->name() << " was not set up" << std::endl;
     return false;
   }
   if (camera_ptr_ && !InitParametersFromCamera()) return false;

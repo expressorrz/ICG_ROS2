@@ -13,7 +13,7 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
   constexpr bool kUseDepthViewer = true;
   constexpr bool kMeasureOcclusions = true;
   constexpr bool kModelOcclusions = false;
-  constexpr bool kVisualizePoseResult = false;
+  constexpr bool kVisualizePoseResult = true;
   constexpr bool kSaveImages = false;
 
   // Renderer and camera setup
@@ -70,6 +70,7 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
     auto region_model_ptr = std::make_shared<icg::RegionModel>(body_name + "_region_model",
                                                                body_ptr,
                                                                config_.config_dir / (body_name + "_region_model.bin"));
+                                                               
     auto depth_model_ptr = std::make_shared<icg::DepthModel>(body_name + "_depth_model",
                                                              body_ptr,
                                                              config_.config_dir / (body_name + "_depth_model.bin"));
