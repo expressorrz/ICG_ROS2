@@ -144,11 +144,9 @@ bool DepthModel::GenerateModel() {
       renderer_ptr->FetchDepthImage();
 
       // Generate data
-      views_[i].orientation =
-          camera2body_poses[i].matrix().col(2).segment(0, 3);
+      views_[i].orientation = camera2body_poses[i].matrix().col(2).segment(0, 3);
       views_[i].data_points.resize(n_points_);
-      if (!GeneratePointData(*renderer_ptr, camera2body_poses[i],
-                             &views_[i].data_points))
+      if (!GeneratePointData(*renderer_ptr, camera2body_poses[i], &views_[i].data_points))
         cancel = true;
     }
   }

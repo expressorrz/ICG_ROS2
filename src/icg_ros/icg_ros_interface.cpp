@@ -13,7 +13,7 @@ ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Conf
   constexpr bool kUseDepthViewer = true;
   constexpr bool kMeasureOcclusions = true;
   constexpr bool kModelOcclusions = false;
-  constexpr bool kVisualizePoseResult = true;
+  constexpr bool kVisualizePoseResult = false;
   constexpr bool kSaveImages = false;
 
   // Renderer and camera setup

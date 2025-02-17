@@ -118,6 +118,19 @@ bool NormalRendererCore::FetchNormalImage(cv::Mat *normal_image) {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   renderer_geometry_ptr_->DetachContext();
   normal_image_fetched_ = true;
+
+
+    // int image_count = 0;
+    // std::string path = "fig/";
+    // for (const auto &entry : std::filesystem::directory_iterator(path)) {
+    //     if (entry.is_regular_file() && entry.path().extension() == ".png") {
+    //         image_count++;
+    //     }
+    // }
+    // cv::imwrite("fig/normal_image_" + std::to_string(image_count) + ".png", *normal_image);
+  cv::imshow("Normal Image", *normal_image);
+  std::cout << "Normal Image Size: " << normal_image->cols << " x " << normal_image->rows << std::endl;
+  cv::waitKey(0);
   return true;
 }
 
@@ -136,6 +149,8 @@ bool NormalRendererCore::FetchDepthImage(cv::Mat *depth_image) {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   renderer_geometry_ptr_->DetachContext();
   depth_image_fetched_ = true;
+//   cv::imshow("Depth Image", *depth_image);
+//   cv::waitKey(0);
   return true;
 }
 

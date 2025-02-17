@@ -247,8 +247,7 @@ bool RegionModel::SaveModel() const {
   size_t n_views = views_.size();
   ofs.write((const char *)(&n_views), sizeof(n_views));
   for (const auto &v : views_) {
-    ofs.write((const char *)(v.data_points.data()),
-              n_points_ * sizeof(DataPoint));
+    ofs.write((const char *)(v.data_points.data()), n_points_ * sizeof(DataPoint));
     ofs.write((const char *)(v.orientation.data()), sizeof(v.orientation));
   }
   ofs.flush();
