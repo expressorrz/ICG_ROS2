@@ -62,7 +62,7 @@ public:
 
         // Create timer
         timer_ = this->create_wall_timer(
-                std::chrono::milliseconds(16),
+                std::chrono::milliseconds(3),
                 std::bind(&ICGTestNode::timerCallback, this));
     }
 
