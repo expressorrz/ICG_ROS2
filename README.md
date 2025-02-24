@@ -18,6 +18,10 @@ ros2 launch ros2_aruco aruco_recognition.launch.py
 ros2 launch icg_ros icg_test_node_launch.py
 ```
 
+```
+ros2 launch pose_subscriber pose_subscriber.launch.py
+```
+
 
 data: [-0.7750956190862293, 0.5750350841341046, -0.26184238252853137, 0.19079416005256802,
 0.5019919651297154, 0.30877371964185574, -0.8078755207355518, 0.11421521520477351,
