@@ -1,0 +1,4 @@
+/icg_test_node:
+  ros__parameters:
+    config_dir: "/home/ipu/Documents/robot_learning/temp/ICG_ROS2/src/icg/config"
+    camera_frame: "D455_color_optical_frame"
