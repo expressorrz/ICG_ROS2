@@ -1,8 +1,5 @@
 .vscode/
 .idea/
 *.bin
-build
-install
-log
 *.
-*.ipynb
+# *.ipynb
