@@ -31,7 +31,11 @@ public:
         // Configure ICG
         icg_ros::ICG_ROS_Config config;
         config.config_dir = config_dir;
-        config.body_names.push_back("cube");
+        config.body_names.push_back("cube1");
+        config.body_names.push_back("cube2");
+        for (const auto &body_name : config.body_names) {
+            RCLCPP_INFO(this->get_logger(), "Body name: %s", body_name.c_str());
+        }
         config.tracker_name = "tracker";
         config.renderer_geometry_name = "renderer_geometry";
         config.color_camera_name = "color_interface";

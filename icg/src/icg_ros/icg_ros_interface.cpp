@@ -10,7 +10,7 @@ namespace icg_ros
 
 ICG_ROS::ICG_ROS(std::shared_ptr<rclcpp::Node> node, const icg_ros::ICG_ROS_Config &config)
     : node_{node}, config_{config} {
-  constexpr bool kUseDepthViewer = true;
+  constexpr bool kUseDepthViewer = false;
   constexpr bool kMeasureOcclusions = true;
   constexpr bool kModelOcclusions = false;
   constexpr bool kVisualizePoseResult = false;

@@ -2,7 +2,7 @@
 geometry_path: "./cube.obj"
 geometry_unit_in_meter: 1
 geometry_counterclockwise: 1
-geometry_enable_culling: 1
+geometry_enable_culling: 0
 geometry2body_pose: !!opencv-matrix
   rows: 4
   cols: 4

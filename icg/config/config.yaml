@@ -20,12 +20,16 @@ RendererGeometry:
     bodies: ["cube"]
 
 Body:
-  - name: "cube"
-    metafile_path: "./cube.yaml"
+  - name: "cube1"
+    metafile_path: "./cube1.yaml"
+
+Body:
+  - name: "cube2"
+    metafile_path: "./cube2.yaml"
 
 ManualDetector:
   - name: "cube_manual_detector"
-    metafile_path: "./cube_manual_detector2.yaml"
+    metafile_path: "./cube_manual_detector.yaml"
     body: "cube"
     color_camera: "realsense_color"
 
