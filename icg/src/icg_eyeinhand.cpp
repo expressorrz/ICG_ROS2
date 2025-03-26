@@ -1,6 +1,5 @@
 #include "icg_ros/ros_camera.h"
 #include "icg_ros/icg_ros_interface.h"
-
 #include "icg_msgs/msg/marker_poses.hpp"
 
 
@@ -24,7 +23,7 @@ public:
         this->declare_parameter<std::string>("camera_frame", "D455_color_optical_frame");
 
         // Create publisher
-        pose_publisher_ = this->create_publisher<icg_msgs::msg::MarkerPoses>("pose", 10);
+        pose_publisher_ = this->create_publisher<icg_msgs::msg::MarkerPoses>("aruco_markers_eyeinhand", 10);
     }
 
     void initialize() {
@@ -35,7 +34,6 @@ public:
         icg_ros::ICG_ROS_Config config;
         config.config_dir = config_dir;
         config.body_names.push_back("cube1");
-        // config.body_names.push_back("cube2");
         for (const auto &body_name : config.body_names) {
             RCLCPP_INFO(this->get_logger(), "Body name: %s", body_name.c_str());
         }
@@ -96,6 +94,7 @@ private:
         pose.orientation.y = rotation.y();
         pose.orientation.z = rotation.z();
         pose.orientation.w = rotation.w();
+
         msg.poses.push_back(pose);
 
         pose_publisher_->publish(msg);

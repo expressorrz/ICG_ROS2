@@ -23,9 +23,9 @@ Body:
   - name: "cube1"
     metafile_path: "./cube1.yaml"
 
-# Body:
-#   - name: "cube2"
-#     metafile_path: "./cube2.yaml"
+Body:
+  - name: "cube2"
+    metafile_path: "./cube2.yaml"
 
 ManualDetector:
   - name: "cube_manual_detector"
