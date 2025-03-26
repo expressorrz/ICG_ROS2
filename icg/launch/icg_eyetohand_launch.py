@@ -9,13 +9,13 @@ def generate_launch_description():
     icg_params = os.path.join(
         get_package_share_directory('icg_ros'),
         'config',
-        'icg_test_node.yaml'
+        'icg_eyetohand.yaml'
     )
 
     icg_node = Node(
         package='icg_ros',
-        executable='icg_test_node',
-        name='icg_test_node',
+        executable='icg_eyetohand',
+        name='icg_eyetohand',
         output='screen',
         parameters=[icg_params]
     )

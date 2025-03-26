@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ros2_aruco_interfaces)
+project(icg_msgs)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -26,7 +26,7 @@ find_package(rosidl_default_generators REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/ArucoMarkers.msg"
+  "msg/MarkerPoses.msg"
   DEPENDENCIES geometry_msgs
   DEPENDENCIES std_msgs
  )

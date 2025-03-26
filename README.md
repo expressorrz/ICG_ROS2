@@ -3,26 +3,25 @@ This is a ICG ROS2 wrapper repo of the [pose tracking library ICG](https://githu
 
 
 ```
-ros2 launch realsense2_camera rs_launch.py camera_namespace:=camera camera_name:=D455 serial_no:=_819612070593 rgb_camera.color_profile:=1920x1080x30
-ros2 launch realsense2_camera rs_launch.py camera_namespace:=camera camera_name:=D455 serial_no:=_239722072823 rgb_camera.color_profile:=1280x720x30
-
+ros2 launch realsense2_camera rs_launch.py camera_namespace:=robot1 camera_name:=D455_1 serial_no:=_819612070593
 ```
 
 ```
-colcon build --cmake-args -USE_REALSENSE=ON
+colcon build --packages-select icg_ros --cmake-args -USE_REALSENSE=ON
 ```
 
-```
-ros2 launch ros2_aruco aruco_recognition.launch.py
-```
 
 ```
-ros2 launch icg_ros icg_test_node_launch.py
+ros2 launch icg_ros icg_eyeinhand_launch.py
+
+ros2 launch icg_ros icg_eyetohand_launch.py
+
 ```
 
 ```
 ros2 launch pose_subscriber pose_subscriber.launch.py
 ```
+
 
 
 # Acknowledgments

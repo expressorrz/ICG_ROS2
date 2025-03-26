@@ -1,6 +1,9 @@
 #include "icg_ros/ros_camera.h"
 #include "icg_ros/icg_ros_interface.h"
 
+#include "icg_msgs/msg/marker_poses.hpp"
+
+
 #include <iostream>
 #include <string>
 
@@ -13,15 +16,15 @@ class ICGTestNode : public rclcpp::Node
 {
 public:
     ICGTestNode()
-            : Node("icg_test_node")
+            : Node("icg_eyeinhand")
     {
         RCLCPP_INFO(this->get_logger(), "ICG Test Node has been started.");
         // Declare and get parameters
-        this->declare_parameter<std::string>("config_dir", "/home/ipu/Documents/robot_learning/icg_ros2/config");
+        this->declare_parameter<std::string>("config_dir", "/home/ipu/Documents/ips_icg/src/temp/pick_and_place/icg_ros/icg/config");
         this->declare_parameter<std::string>("camera_frame", "D455_color_optical_frame");
 
         // Create publisher
-        pose_publisher_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("pose", 10);
+        pose_publisher_ = this->create_publisher<icg_msgs::msg::MarkerPoses>("pose", 10);
     }
 
     void initialize() {
@@ -32,18 +35,18 @@ public:
         icg_ros::ICG_ROS_Config config;
         config.config_dir = config_dir;
         config.body_names.push_back("cube1");
-        config.body_names.push_back("cube2");
+        // config.body_names.push_back("cube2");
         for (const auto &body_name : config.body_names) {
             RCLCPP_INFO(this->get_logger(), "Body name: %s", body_name.c_str());
         }
         config.tracker_name = "tracker";
         config.renderer_geometry_name = "renderer_geometry";
         config.color_camera_name = "color_interface";
-        config.color_camera_topic = "/camera/D455/color/image_raw";
-        config.color_camera_info_topic = "/camera/D455/color/camera_info";
+        config.color_camera_topic = "/robot1/D455_1/color/image_raw";
+        config.color_camera_info_topic = "/robot1/D455_1/color/camera_info";
         config.depth_camera_name = "depth_interface";
-        config.depth_camera_topic = "/camera/D455/depth/image_rect_raw";
-        config.depth_camera_info_topic = "/camera/D455/depth/camera_info";
+        config.depth_camera_topic = "/robot1/D455_1/depth/image_rect_raw";
+        config.depth_camera_info_topic = "/robot1/D455_1/depth/camera_info";
         config.color_depth_renderer_name = "color_depth_renderer";
         config.depth_depth_renderer_name = "depth_depth_renderer";
         config.color_viewer_name = "color_viewer";
@@ -79,30 +82,30 @@ private:
         Eigen::Quaternionf rotation(temp_transform.matrix().block<3, 3>(0, 0));
         Eigen::Vector3f trans(temp_transform.matrix().block<3, 1>(0, 3));
 
-        auto pose = geometry_msgs::msg::PoseStamped();
-        pose.header.frame_id = "D455_color_optical_frame";
-        pose.header.stamp = this->now();
-        pose.pose.orientation.w = rotation.w();
-        pose.pose.orientation.x = rotation.x();
-        pose.pose.orientation.y = rotation.y();
-        pose.pose.orientation.z = rotation.z();
-        pose.pose.position.x = trans.x();
-        pose.pose.position.y = trans.y();
-        pose.pose.position.z = trans.z();
+        auto msg = icg_msgs::msg::MarkerPoses();
+        msg.header.frame_id = "D455_1_color_optical_frame";
+        msg.header.stamp = this->now();
 
-        // RCLCPP_INFO(this->get_logger(), "Pose: [Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)]",
-        //         pose.pose.position.x, pose.pose.position.y, pose.pose.position.z,
-        //         pose.pose.orientation.w, pose.pose.orientation.x, pose.pose.orientation.y, pose.pose.orientation.z);
+        msg.marker_ids.push_back(0);
 
-        
-        pose_publisher_->publish(pose);
+        geometry_msgs::msg::Pose pose;
+        pose.position.x = trans.x();
+        pose.position.y = trans.y();
+        pose.position.z = trans.z();
+        pose.orientation.x = rotation.x();
+        pose.orientation.y = rotation.y();
+        pose.orientation.z = rotation.z();
+        pose.orientation.w = rotation.w();
+        msg.poses.push_back(pose);
+
+        pose_publisher_->publish(msg);
         iteration++;
     }
 
     std::shared_ptr<icg_ros::ICG_ROS> interface_;
     std::shared_ptr<icg::Tracker> tracker_ptr_;
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr tracking_sub_;
-    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pose_publisher_;
+    rclcpp::Publisher<icg_msgs::msg::MarkerPoses>::SharedPtr pose_publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
 };
 
