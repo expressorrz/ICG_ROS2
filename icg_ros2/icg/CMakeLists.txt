@@ -16,7 +16,7 @@ find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(icg_msgs REQUIRED)
+find_package(ros2_aruco_interfaces REQUIRED)
 
 find_package(cv_bridge REQUIRED)
 find_package(message_filters REQUIRED)
@@ -33,7 +33,7 @@ include_directories(
     include
     third_party
     ${EIGEN3_INCLUDE_DIR}
-    ${icg_msgs_INCLUDE_DIRS}
+    ${ros2_aruco_interfaces_INCLUDE_DIRS}
 )
 
 # ===================== Library =====================
@@ -72,7 +72,7 @@ ament_target_dependencies(
     icg
     rclcpp
     std_msgs
-    icg_msgs
+    ros2_aruco_interfaces
     sensor_msgs
     OpenCV
     Eigen3
@@ -89,7 +89,7 @@ ament_target_dependencies(
     icg_eyeinhand
     rclcpp
     std_msgs
-    icg_msgs
+    ros2_aruco_interfaces
     sensor_msgs
     geometry_msgs
     cv_bridge
@@ -120,7 +120,7 @@ ament_target_dependencies(
     icg_eyetohand
     rclcpp
     std_msgs
-    icg_msgs
+    ros2_aruco_interfaces
     sensor_msgs
     geometry_msgs
     cv_bridge

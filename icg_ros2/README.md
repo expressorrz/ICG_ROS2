@@ -3,7 +3,7 @@ This is a ICG ROS2 wrapper repo of the [pose tracking library ICG](https://githu
 
 
 ```
-ros2 launch realsense2_camera rs_launch.py camera_namespace:=robot1 camera_name:=D455_2 serial_no:=_327122075831 rgb_camera.color_profile:=1920x1080x30
+ros2 launch realsense2_camera rs_launch.py camera_namespace:=robot1 camera_name:=D455_1 serial_no:=_819612070593
 ```
 
 ```

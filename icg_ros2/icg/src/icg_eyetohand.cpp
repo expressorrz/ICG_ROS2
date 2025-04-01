@@ -1,6 +1,6 @@
 #include "icg_ros/ros_camera.h"
 #include "icg_ros/icg_ros_interface.h"
-#include "icg_msgs/msg/marker_poses.hpp"
+#include "ros2_aruco_interfaces/msg/aruco_markers.hpp"
 
 #include <iostream>
 #include <string>
@@ -18,11 +18,11 @@ public:
     {
         RCLCPP_INFO(this->get_logger(), "ICG Test Node has been started.");
         // Declare and get parameters
-        this->declare_parameter<std::string>("config_dir", "/home/ipu/Documents/ips_icg/src/temp/pick_and_place/icg_ros/icg/config");
+        this->declare_parameter<std::string>("config_dir", "/home/ipu/Documents/robot_learning/ICG_ROS2/src/icg_ros2/icg/config");
         this->declare_parameter<std::string>("camera_frame", "D455_color_optical_frame");
 
         // Create publisher
-        pose_publisher_ = this->create_publisher<icg_msgs::msg::MarkerPoses>("aruco_markers_eyetohand", 10);
+        pose_publisher_ = this->create_publisher<ros2_aruco_interfaces::msg::ArucoMarkers>("aruco_markers_eyetohand_2", 10);
     }
 
     void initialize() {
@@ -32,19 +32,19 @@ public:
         // Configure ICG
         icg_ros::ICG_ROS_Config config;
         config.config_dir = config_dir;
-        config.body_names.push_back("cube1");
         config.body_names.push_back("cube2");
+        config.body_names.push_back("cube3");
         for (const auto &body_name : config.body_names) {
             RCLCPP_INFO(this->get_logger(), "Body name: %s", body_name.c_str());
         }
         config.tracker_name = "tracker";
         config.renderer_geometry_name = "renderer_geometry";
         config.color_camera_name = "color_interface";
-        config.color_camera_topic = "/robot1/D455_1/color/image_raw";
-        config.color_camera_info_topic = "/robot1/D455_1/color/camera_info";
+        config.color_camera_topic = "/robot1/D455_2/color/image_raw";
+        config.color_camera_info_topic = "/robot1/D455_2/color/camera_info";
         config.depth_camera_name = "depth_interface";
-        config.depth_camera_topic = "/robot1/D455_1/depth/image_rect_raw";
-        config.depth_camera_info_topic = "/robot1/D455_1/depth/camera_info";
+        config.depth_camera_topic = "/robot1/D455_2/depth/image_rect_raw";
+        config.depth_camera_info_topic = "/robot1/D455_2/depth/camera_info";
         config.color_depth_renderer_name = "color_depth_renderer";
         config.depth_depth_renderer_name = "depth_depth_renderer";
         config.color_viewer_name = "color_viewer";
@@ -91,12 +91,12 @@ private:
             return pose;
         };
 
-        auto msg = icg_msgs::msg::MarkerPoses();
+        auto msg = ros2_aruco_interfaces::msg::ArucoMarkers();
         msg.header.frame_id = "D455_1_color_optical_frame";
         msg.header.stamp = this->now();
         msg.marker_ids = {2, 3};
-        msg.poses = {createPose(tracker_ptr_->body_ptrs()[0]->body2world_pose()),   # active cube
-                 createPose(tracker_ptr_->body_ptrs()[1]->body2world_pose())};  # passive cube
+        msg.poses = {createPose(tracker_ptr_->body_ptrs()[0]->body2world_pose()),   // active cube
+                 createPose(tracker_ptr_->body_ptrs()[1]->body2world_pose())};  // passive cube
 
         pose_publisher_->publish(msg);
         iteration++;
@@ -105,7 +105,7 @@ private:
     std::shared_ptr<icg_ros::ICG_ROS> interface_;
     std::shared_ptr<icg::Tracker> tracker_ptr_;
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr tracking_sub_;
-    rclcpp::Publisher<icg_msgs::msg::MarkerPoses>::SharedPtr pose_publisher_;
+    rclcpp::Publisher<ros2_aruco_interfaces::msg::ArucoMarkers>::SharedPtr pose_publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
 };
 

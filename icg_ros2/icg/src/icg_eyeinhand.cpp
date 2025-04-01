@@ -1,6 +1,6 @@
 #include "icg_ros/ros_camera.h"
 #include "icg_ros/icg_ros_interface.h"
-#include "icg_msgs/msg/marker_poses.hpp"
+#include "ros2_aruco_interfaces/msg/aruco_markers.hpp"
 
 
 #include <iostream>
@@ -19,11 +19,11 @@ public:
     {
         RCLCPP_INFO(this->get_logger(), "ICG Test Node has been started.");
         // Declare and get parameters
-        this->declare_parameter<std::string>("config_dir", "/home/ipu/Documents/ips_icg/src/temp/pick_and_place/icg_ros/icg/config");
+        this->declare_parameter<std::string>("config_dir", "/home/qiangubuntu/research/ips_dtir/src/temp/pick_and_place/icg_ros2/icg/config");
         this->declare_parameter<std::string>("camera_frame", "D455_color_optical_frame");
 
         // Create publisher
-        pose_publisher_ = this->create_publisher<icg_msgs::msg::MarkerPoses>("aruco_markers_eyeinhand", 10);
+        pose_publisher_ = this->create_publisher<ros2_aruco_interfaces::msg::ArucoMarkers>("aruco_markers_eyeinhand_2", 10);
     }
 
     void initialize() {
@@ -80,7 +80,7 @@ private:
         Eigen::Quaternionf rotation(temp_transform.matrix().block<3, 3>(0, 0));
         Eigen::Vector3f trans(temp_transform.matrix().block<3, 1>(0, 3));
 
-        auto msg = icg_msgs::msg::MarkerPoses();
+        auto msg = ros2_aruco_interfaces::msg::ArucoMarkers();
         msg.header.frame_id = "D455_1_color_optical_frame";
         msg.header.stamp = this->now();
 
@@ -104,7 +104,7 @@ private:
     std::shared_ptr<icg_ros::ICG_ROS> interface_;
     std::shared_ptr<icg::Tracker> tracker_ptr_;
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr tracking_sub_;
-    rclcpp::Publisher<icg_msgs::msg::MarkerPoses>::SharedPtr pose_publisher_;
+    rclcpp::Publisher<ros2_aruco_interfaces::msg::ArucoMarkers>::SharedPtr pose_publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
 };
 
